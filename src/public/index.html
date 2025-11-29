@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="AI-powered advisory board for startup founders">
+    <title>Advisor AI - Business Wisdom</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 50%, #0f172a 100%);
+            min-height: 100vh;
+            color: #e2e8f0;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding-top: 20px;
+        }
+
+        .header h1 {
+            font-size: 48px;
+            margin-bottom: 15px;
+            background: linear-gradient(135deg, #3b82f6 0%, #a855f7 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .header p {
+            font-size: 18px;
+            color: #cbd5e1;
+        }
+
+        .security-badge {
+            background: rgba(34, 197, 94, 0.1);
+            border: 2px solid rgba(34, 197, 94, 0.3);
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            font-size: 13px;
+            color: #86efac;
+        }
+
+        .advisor-selection {
+            margin-bottom: 30px;
+        }
+
+        .advisor-selection label {
+            display: block;
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 12px;
+            color: #cbd5e1;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 15px;
+        }
+
+        .advisor-btn {
+            flex: 1;
+            padding: 14px 20px;
+            border: 2px solid transparent;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: rgba(255, 255, 255, 0.1);
+            color: #cbd5e1;
+            backdrop-filter: blur(10px);
+        }
+
+        .advisor-btn:hover:not(:disabled) {
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        .advisor-btn:focus-visible {
+            outline: 2px solid #a855f7;
+            outline-offset: 2px;
+        }
+
+        .advisor-btn.active {
+            background: linear-gradient(135deg, #3b82f6 0%, #a855f7 100%);
+            color: white;
+            box-shadow: 0 0 20px rgba(168, 85, 247, 0.5);
+        }
+
+        .advisor-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .input-section {
+            margin-bottom: 20px;
+        }
+
+        textarea {
+            width: 100%;
+            padding: 16px;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.05);
+            color: white;
+            font-size: 16px;
+            font-family: inherit;
+            resize: none;
+            height: 120px;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+        }
+
+        textarea:focus {
+            outline: none;
+            border-color: #a855f7;
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        textarea::placeholder {
+            color: rgba(203, 213, 225, 0.5);
+        }
+
+        textarea:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .hint {
+            font-size: 13px;
+            color: #94a3b8;
+            margin-top: 8px;
+        }
+
+        .send-btn {
+            width: 100%;
+            padding: 16px;
+            border: none;
+            border-radius: 12px;
+            background: linear-gradient(135deg, #3b82f6 0%, #a855f7 100%);
+            color: white;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(168, 85, 247, 0.3);
+        }
+
+        .send-btn:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(168, 85, 247, 0.4);
+        }
+
+        .send-btn:focus-visible {
+            outline: 2px solid #fff;
+            outline-offset: 2px;
+        }
+
+        .send-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .response-section {
+            margin-top: 30px;
+            animation: slideIn 0.4s ease;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .response-box {
+            padding: 24px;
+            border-radius: 12px;
+            background: linear-gradient(135deg, rgba(30, 27, 75, 0.5) 0%, rgba(88, 28, 135, 0.3) 100%);
+            border: 2px solid rgba(168, 85, 247, 0.3);
+            backdrop-filter: blur(10px);
+        }
+
+        .response-title {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 12px;
+            background: linear-gradient(135deg, #3b82f6 0%, #a855f7 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .response-text {
+            font-size: 16px;
+            line-height: 1.7;
+            color: #e2e8f0;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+
+        .error-message {
+            color: #ff6b6b;
+            font-weight: 500;
+        }
+
+        @media (max-width: 640px) {
+            .header h1 {
+                font-size: 36px;
+            }
+
+            .button-group {
+                flex-direction: column;
+            }
+
+            textarea {
+                height: 100px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🤖 Advisor AI</h1>
+            <p>Advisory Board for Startup Founders</p>
+        </div>
+
+        <div class="security-badge">
+            🔒 <strong>Secure & Private:</strong> No API keys needed. Your questions are private.
+        </div>
+
+        <div class="advisor-selection">
+            <label for="advisors">Choose Your Advisor:</label>
+            <div class="button-group" id="advisors" role="group">
+                <button class="advisor-btn active" id="markBtn">Mark Cuban</button>
+                <button class="advisor-btn" id="warrenBtn">Warren Buffett</button>
+            </div>
+        </div>
+
+        <div class="input-section">
+            <label for="question">Your Question:</label>
+            <textarea 
+                id="question" 
+                placeholder="Ask your question here... (e.g., How do I raise funding?)"
+                maxlength="500"
+            ></textarea>
+            <div class="hint">💡 Ctrl+Enter to send</div>
+        </div>
+
+        <button class="send-btn" id="sendBtn">📤 Ask Advisor</button>
+
+        <div id="responseSection" class="response-section" style="display: none;">
+            <div class="response-box">
+                <div class="response-title" id="advisorName">Mark Cuban Says:</div>
+                <div class="response-text" id="responseText"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentAdvisor = "Mark Cuban";
+        let isLoading = false;
+        
+        // REPLACE THIS WITH YOUR WORKER URL AFTER DEPLOYMENT
+        const WORKER_URL = 'https://advisor-ai.YOUR_WORKER_ID.workers.dev';
+        const REQUEST_TIMEOUT = 30000;
+
+        if (WORKER_URL.includes('YOUR_WORKER_ID')) {
+            document.getElementById('responseText').textContent = 
+                '❌ Worker URL not configured yet. Deploy your Worker first, then update the URL in the code.';
+            document.getElementById('responseSection').style.display = 'block';
+        }
+
+        function selectAdvisor(advisor) {
+            if (isLoading) return;
+            
+            currentAdvisor = advisor;
+            document.getElementById('markBtn').classList.remove('active');
+            document.getElementById('warrenBtn').classList.remove('active');
+            
+            if (advisor === 'Mark Cuban') {
+                document.getElementById('markBtn').classList.add('active');
+            } else {
+                document.getElementById('warrenBtn').classList.add('active');
+            }
+        }
+
+        async function askAdvisor() {
+            if (isLoading) return;
+
+            const question = document.getElementById('question').value.trim();
+            const sendBtn = document.getElementById('sendBtn');
+            const questionTextarea = document.getElementById('question');
+
+            if (!question || question.length < 3) {
+                alert('Please enter a question (3+ characters)!');
+                return;
+            }
+
+            isLoading = true;
+            sendBtn.disabled = true;
+            questionTextarea.disabled = true;
+            sendBtn.innerHTML = '⏳ Thinking...';
+
+            try {
+                const controller = new AbortController();
+                const timeoutId = setTimeout(() => controller.abort(), REQUEST_TIMEOUT);
+
+                const response = await fetch(WORKER_URL, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        question: question,
+                        advisor: currentAdvisor
+                    }),
+                    signal: controller.signal,
+                });
+
+                clearTimeout(timeoutId);
+
+                const data = await response.json();
+
+                if (!response.ok) {
+                    throw new Error(data.error || `HTTP ${response.status}`);
+                }
+
+                if (!data.success) {
+                    throw new Error(data.error || 'Request failed');
+                }
+
+                document.getElementById('advisorName').textContent = `${currentAdvisor} Says:`;
+                document.getElementById('responseText').textContent = data.response;
+                document.getElementById('responseSection').style.display = 'block';
+                document.getElementById('question').value = '';
+
+            } catch (error) {
+                console.error('Error:', error);
+                document.getElementById('responseText').innerHTML = 
+                    `<span class="error-message">❌ Error: ${error.message}</span>`;
+                document.getElementById('responseSection').style.display = 'block';
+
+            } finally {
+                isLoading = false;
+                sendBtn.disabled = false;
+                questionTextarea.disabled = false;
+                sendBtn.innerHTML = '📤 Ask Advisor';
+            }
+        }
+
+        document.getElementById('markBtn').addEventListener('click', () => selectAdvisor('Mark Cuban'));
+        document.getElementById('warrenBtn').addEventListener('click', () => selectAdvisor('Warren Buffett'));
+        document.getElementById('sendBtn').addEventListener('click', askAdvisor);
+        
+        document.getElementById('question').addEventListener('keydown', (e) => {
+            if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
+                e.preventDefault();
+                askAdvisor();
+            }
+        });
+    </script>
+</body>
+</html>
