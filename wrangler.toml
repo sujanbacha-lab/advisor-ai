@@ -1,0 +1,34 @@
+name = "advisor-ai"
+main = "src/index.js"
+compatibility_date = "2025-11-29"
+compatibility_flags = ["nodejs_compat"]
+
+# Environment-specific configuration
+[env.production]
+name = "advisor-ai-prod"
+route = "https://advisor-ai.*.workers.dev/*"
+zone_id = ""
+
+[[env.production.vars]]
+name = "ENVIRONMENT"
+text = "production"
+
+[[env.production.vars]]
+name = "MAX_TOKENS"
+text = "1500"
+
+[[env.production.vars]]
+name = "TEMPERATURE"
+text = "0.85"
+
+# Rate limiting
+[limits]
+cpu_ms = 50
+
+# Build settings
+[build]
+command = "npm install"
+watch_paths = ["src/**/*.js"]
+
+# Analytics (optional)
+analytics_engine_datasets = ["advisor_ai_analytics"]
